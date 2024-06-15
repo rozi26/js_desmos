@@ -1,3 +1,4 @@
+import { Color } from "../General/Color.js";
 
 
 export let ZOOM_MUL = Math.pow(5,1/4);
@@ -15,3 +16,5 @@ export let GRID_LOG_LEVEL = 5;
 
 export let DESMOS_ELEMENT_HEIGHT = 80;
 export let DESMOS_ELEMENT_ERROR_HEIGHT = 30
+
+export let DESMOS_ELEMENTS_COLORS = [new Color(40,40,220).getAsSingleValue(),new Color(30,220,40).getAsSingleValue()]

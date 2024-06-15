@@ -1,7 +1,7 @@
 import { RegularNum } from "../../Math/Numbers/RegularNum.js";
 import { Operation, OperationsHolder, getDefultRegularOperations } from "../../Parser/Operations.js";
 import { DesmosRefrenceMeneger, RefrenceKey } from "../General/DesmosRefrenceMeneger.js";
-import { DesmosFunction2D } from "./Elements/DesmosFunction2D.js";
+import { DesmosFunction2D } from "./Elements/Function/DesmosFunction2D.js";
 import { Desmos2DElementBase, Desmos2DElementsTypes } from "./Elements/Desmos2DElementBase.js";
 
 

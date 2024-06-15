@@ -1,5 +1,5 @@
-import { DesmomsClassifyerBase } from "../../Menu/DesmosCalssifyerBase.js";
-import { DesmosElementBase } from "../../Menu/DesmosElementBase.js";
+import { DesmomsClassifyerBase } from "../../../Menu/DesmosCalssifyerBase.js";
+import { DesmosElementBase } from "../../../Menu/DesmosElementBase.js";
 import { DesmosFunction2D } from "./DesmosFunction2D.js";
 
 export class FunctionClassifyer extends DesmomsClassifyerBase<DesmosFunction2D>

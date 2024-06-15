@@ -8,7 +8,7 @@ import { DesmosVarClassifyer } from "../General/Elements/Var/DesmosVarClassifyer
 import { DesmosSideMenu } from "../Menu/DesmosSideMenu.js";
 import { IDesmosDisplayer } from "../Menu/IDesmosDisplayer.js";
 import { Desmos2DRefranceMeneger } from "./Desmos2DRefranceMeneger.js";
-import { FunctionClassifyer } from "./Elements/FunctionClassifyer.js";
+import { FunctionClassifyer } from "./Elements/Function/FunctionClassifyer.js";
 import { Desmos2DElementBase } from "./Elements/Desmos2DElementBase.js";
 import { Desmos2DPointClassifyer } from "./Elements/Point/Desmos2DPointClassifyer.js";
 import { Transformer2DLinearCreator } from "../../Mappers/2D/Transformers/Transformer2DLinear.js";

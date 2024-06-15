@@ -1,13 +1,14 @@
-import { CanvasWriterPlus } from "../../../App/canvesWriter.js";
-import { GridLayerBase } from "../../../Mappers/2D/GridLayerBase.js";
-import { Transformer2DLinear } from "../../../Mappers/2D/Transformers/Transformer2DLinear.js";
-import { RegularNum } from "../../../Math/Numbers/RegularNum.js";
-import { Operation, getDefultRegularOperations } from "../../../Parser/Operations.js";
-import { MathExpr, ParseMath, ParseMathVars } from "../../../Parser/Parser1.js";
-import { DesmosRefrenceMeneger } from "../../General/DesmosRefrenceMeneger.js";
-import { DesmosElementBase } from "../../Menu/DesmosElementBase.js";
-import { Desmos2DRefranceMeneger } from "../Desmos2DRefranceMeneger.js";
-import { Desmos2DElementBase, Desmos2DElementsTypes} from "./Desmos2DElementBase.js";
+import { CanvasWriterPlus } from "../../../../App/canvesWriter.js";
+import { GridLayerBase } from "../../../../Mappers/2D/GridLayerBase.js";
+import { Transformer2DLinear } from "../../../../Mappers/2D/Transformers/Transformer2DLinear.js";
+import { RegularNum } from "../../../../Math/Numbers/RegularNum.js";
+import { Operation, getDefultRegularOperations } from "../../../../Parser/Operations.js";
+import { MathExpr, ParseMath, ParseMathVars } from "../../../../Parser/Parser1.js";
+import { DesmosRefrenceMeneger } from "../../../General/DesmosRefrenceMeneger.js";
+import { ColorPicker } from "../../../General/Elements/Extenders/ColorPicker.js";
+import { DesmosElementBase } from "../../../Menu/DesmosElementBase.js";
+import { Desmos2DRefranceMeneger } from "../../Desmos2DRefranceMeneger.js";
+import { Desmos2DElementBase, Desmos2DElementsTypes} from "../Desmos2DElementBase.js";
 
 export class DesmosFunction2D extends Desmos2DElementBase
 {
@@ -16,6 +17,7 @@ export class DesmosFunction2D extends Desmos2DElementBase
     constructor(text: string, refranceMenerger: DesmosRefrenceMeneger<Desmos2DElementBase>)
     {
         super()
+        this.colorPicker = new ColorPicker();
         try
         {
             this.func = ParseMathVars(text, (refranceMenerger as Desmos2DRefranceMeneger).operations);
@@ -26,6 +28,7 @@ export class DesmosFunction2D extends Desmos2DElementBase
             throw e;
         }
     }
+    protected color: number;
     protected writer: CanvasWriterPlus;
     protected transformer: Transformer2DLinear;
 
@@ -50,7 +53,7 @@ export class DesmosFunction2D extends Desmos2DElementBase
         {
             const x: number = this.transformer.pixelToLocX(px);
             const py: number = this.transformer.locToPixelY(this.func.calc([new RegularNum(x)]).asNumber());
-            if (Math.max(py,prevPY) >= py1 && Math.min(py,prevPY) <= py2) this.writer.drawLine(px - 2,prevPY, px, py,0,10)
+            if (Math.max(py,prevPY) >= py1 && Math.min(py,prevPY) <= py2) this.writer.drawLine(px - 2,prevPY, px, py,this.colorPicker.getColor(),10)
             prevPY = py
         }
     }
