@@ -1,0 +1,50 @@
+:root
+{
+    --side_width: max(150px, 15vw);
+    --top_height: max(60px, 6vh);
+    --bottom_height: max(30px, 3vh);
+    --margin: 10px;
+}
+
+#top_menu
+{
+    width: 100vw;
+    height: var(--top_height);
+    border-bottom: 5px black solid;
+}
+
+#side_menu
+{
+    width: var(--side_width);
+    height: calc(100vh - var(--top_height) - var(--margin));
+    border-right: 5px black solid;
+}
+
+#bottom_menu
+{
+    width: calc(100vw - var(--side_width) - var(--margin));
+    height: var(--bottom_height);
+    border-style: solid;
+    position: absolute;
+    bottom: 0px;
+    left: var(--side_width);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+#canves
+{
+    position: absolute;
+    top: var(--top_height);
+    left: var(--side_width);
+    width: calc(100vw - var(--side_width) - var(--margin));
+    height: calc(100vh - var(--top_height) - var(--margin) - var(--bottom_height));
+    border-style: dashed;
+}
+
+body
+{
+    margin: 0px;
+    padding: 0px;
+}

@@ -145,9 +145,5 @@ export class ElementBox<T extends DesmosElementBase>
             return;
         }
         this.setErrorText(this.elem.getBoxExtand().innerHTML)
-        /*this.div.style.height = (DESMOS_ELEMENT_HEIGHT + DESMOS_ELEMENT_ERROR_HEIGHT) + "px";
-        this.extandDiv = this.elem.getBoxExtand();
-        this.extandDiv.style.height = DESMOS_ELEMENT_ERROR_HEIGHT + "px";
-        this.div.appendChild(this.extandDiv);*/
     }
 }

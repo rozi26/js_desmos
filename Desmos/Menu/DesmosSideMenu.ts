@@ -57,7 +57,6 @@ export class DesmosSideMenu<T extends DesmosElementBase>
                 name = text.substring(0,equalIdex);
                 text = text.substring(equalIdex + 1);
             }
-            //console.log("name is " + name + " text is [" + text + "]");
 
             if (!classifyer.isValid(text)) continue;
             element.changeElem(classifyer);

@@ -10,10 +10,16 @@ export class GridLayer extends GridLayerBase
         const H2 = SECANDERY_GRID_THICKNESS / 2;
         const H3 = THIRD_GRID_THICKNESS / 2;
         
+        //const linesLevelX1 = Math.pow(GRID_LOG_LEVEL,~~(Math.log(Math.abs(this.transformer.pixelToLocX(this.writer.width) - this.transformer.pixelToLocX(0))) / Math.log(GRID_LOG_LEVEL)));
+        //const linesLevelY1 = Math.pow(GRID_LOG_LEVEL,~~(Math.log(Math.abs(this.transformer.pixelToLocY(this.writer.height) - this.transformer.pixelToLocY(0))) / Math.log(GRID_LOG_LEVEL)));
+        const linesLevel1 = Math.pow(GRID_LOG_LEVEL,~~(Math.log(Math.max(Math.abs(this.transformer.pixelToLocX(this.writer.width) - this.transformer.pixelToLocX(0)),Math.abs(this.transformer.pixelToLocY(this.writer.height) - this.transformer.pixelToLocY(0)))) / Math.log(GRID_LOG_LEVEL)));
+        const linesLevelX1 = linesLevel1
+        const linesLevelY1 = linesLevel1;
+        const linesLevelX2 = linesLevelX1 / GRID_LOG_LEVEL;
+        const linesLevelY2 = linesLevelY1 / GRID_LOG_LEVEL;
+        
         const startX = this.transformer.pixelToLocX(px1);
         const endX = this.transformer.pixelToLocX(px2);
-        const linesLevelX1 = Math.pow(GRID_LOG_LEVEL,~~(Math.log(Math.abs(this.transformer.pixelToLocX(this.writer.width) - this.transformer.pixelToLocX(0))) / Math.log(GRID_LOG_LEVEL)));
-        const linesLevelX2 = linesLevelX1 / GRID_LOG_LEVEL;
         if (startX < 0 && endX > 0)
         {
             const centerPix = this.transformer.locToPixelX(0);
@@ -22,8 +28,6 @@ export class GridLayer extends GridLayerBase
 
         const startY = this.transformer.pixelToLocY(py2);
         const endY = this.transformer.pixelToLocY(py1);
-        const linesLevelY1 = Math.pow(GRID_LOG_LEVEL,~~(Math.log(Math.abs(this.transformer.pixelToLocY(this.writer.height) - this.transformer.pixelToLocY(0))) / Math.log(GRID_LOG_LEVEL)));
-        const linesLevelY2 = linesLevelY1 / GRID_LOG_LEVEL;
         //console.log(startY + " - " + endY);
         if (startY < 0 && endY > 0)
         {

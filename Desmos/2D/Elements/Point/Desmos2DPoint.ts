@@ -2,17 +2,26 @@ import { RegularNum } from "../../../../Math/Numbers/RegularNum.js";
 import { OperationsHolder } from "../../../../Parser/Operations.js";
 import { ColorPicker } from "../../../General/Elements/Extenders/ColorPicker.js";
 import { DesmosPoint } from "../../../General/Elements/Point/DesmosPoint.js";
+import { Desmos2DRefranceMeneger } from "../../Desmos2DRefranceMeneger.js";
 import { Desmos2DElementBase, Desmos2DElementsTypes } from "../Desmos2DElementBase.js";
 
 export class Desmos2DPoint extends Desmos2DElementBase
 {
     point: DesmosPoint<RegularNum>
-    constructor(text: string, operation: OperationsHolder<RegularNum>)
+    protected text: string;
+    protected refranceMenerger: Desmos2DRefranceMeneger;
+
+    constructor(text: string, refranceMenerger: Desmos2DRefranceMeneger)
     {
         super();
+        this.text = text;
+        this.refranceMenerger = refranceMenerger
         this.colorPicker = new ColorPicker();
-        this.point = new DesmosPoint(text,operation);
-        console.log(this.point)
+        this.rebuild()
+    }
+
+    rebuild() {
+        this.point = new DesmosPoint(this.text, this.refranceMenerger.operations);
     }
 
     getName() {

@@ -17,9 +17,7 @@ export class Desmos2DPointClassifyer extends DesmomsClassifyerBase<Desmos2DPoint
 
     transform(text: string): Desmos2DPoint
     {
-        const ref = (this.refranceMeneger as unknown as Desmos2DRefranceMeneger).operations;
-        if (ref === undefined) throw "desmos var couldn't get operations refrance"
-        return new Desmos2DPoint(text, ref as unknown as OperationsHolder<RegularNum>);
+        return new Desmos2DPoint(text, (this.refranceMeneger as unknown as Desmos2DRefranceMeneger));
     }
 
     isValid(text: string): boolean {

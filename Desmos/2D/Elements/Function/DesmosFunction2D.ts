@@ -6,27 +6,22 @@ import { Operation, getDefultRegularOperations } from "../../../../Parser/Operat
 import { MathExpr, ParseMath, ParseMathVars } from "../../../../Parser/Parser1.js";
 import { DesmosRefrenceMeneger } from "../../../General/DesmosRefrenceMeneger.js";
 import { ColorPicker } from "../../../General/Elements/Extenders/ColorPicker.js";
-import { DesmosElementBase } from "../../../Menu/DesmosElementBase.js";
 import { Desmos2DRefranceMeneger } from "../../Desmos2DRefranceMeneger.js";
 import { Desmos2DElementBase, Desmos2DElementsTypes} from "../Desmos2DElementBase.js";
 
 export class DesmosFunction2D extends Desmos2DElementBase
 {
     protected func: MathExpr<RegularNum> | undefined
+    protected text: string;
+    protected refranceMenerger: Desmos2DRefranceMeneger;
 
-    constructor(text: string, refranceMenerger: DesmosRefrenceMeneger<Desmos2DElementBase>)
+    constructor(text: string, refranceMenerger: Desmos2DRefranceMeneger)
     {
         super()
         this.colorPicker = new ColorPicker();
-        try
-        {
-            this.func = ParseMathVars(text, (refranceMenerger as Desmos2DRefranceMeneger).operations);
-        }
-        catch(e)
-        {
-            this.func = undefined;
-            throw e;
-        }
+        this.text = text;
+        this.refranceMenerger = refranceMenerger;
+        this.rebuild();
     }
     protected color: number;
     protected writer: CanvasWriterPlus;
@@ -35,6 +30,19 @@ export class DesmosFunction2D extends Desmos2DElementBase
     getName(): string {return "2d function"; }
     getLogo(): HTMLElement { const elm = document.createElement('h2'); elm.innerHTML = "F"; return elm }
     getType(): Desmos2DElementsTypes {return Desmos2DElementsTypes.Function}
+
+
+    rebuild() {
+        try
+        {
+            this.func = ParseMathVars(this.text, this.refranceMenerger.operations);
+        }
+        catch(e)
+        {
+            this.func = undefined;
+            throw e;
+        }
+    }
 
     //the calculation part
 

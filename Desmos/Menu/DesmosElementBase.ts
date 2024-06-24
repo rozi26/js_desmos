@@ -1,4 +1,5 @@
 import { IdentifyNumber } from "../../General/IdentifyNumber.js"
+import { ColorPicker } from "../General/Elements/Extenders/ColorPicker.js"
 
 export abstract class DesmosElementBase
 {
@@ -14,6 +15,11 @@ export abstract class DesmosElementBase
     getBoxExtand(): HTMLDivElement
     {
         return undefined
+    }
+
+    getColorPicker(): ColorPicker | undefined
+    {
+        return undefined;
     }
     
     fullRender() {};

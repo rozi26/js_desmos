@@ -10,6 +10,7 @@ export abstract class Desmos2DElementBase extends GridLayerBase implements Desmo
     abstract getName(): string;
     abstract getLogo(): HTMLElement;
     abstract getType(): Desmos2DElementsTypes;
+    abstract rebuild();
     
 
     protected colorPicker: ColorPicker | undefined = undefined;
@@ -27,5 +28,9 @@ export abstract class Desmos2DElementBase extends GridLayerBase implements Desmo
 
     getBoxExtand(): HTMLDivElement {
         return undefined;
+    }
+
+    getColorPicker(): ColorPicker {
+        return this.colorPicker;
     }
 }
