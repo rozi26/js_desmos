@@ -1,6 +1,7 @@
 import { Color } from "../General/Color.js";
 import { LINE_WIDTH, LINE_COLOR } from "./settings.js";
 import { Transformer2DExpX } from '../Mappers/2D/Transformers/Transformer2DExpX';
+import { realFloor } from "../General/Utils.js";
 
 function    colorToRGB(color: number): number[]
 {
@@ -72,7 +73,7 @@ export class CanvasWriter {
     }
   
     getAt(x: number, y: number): number {
-      const index = (y * this.width + x) * 4;
+      const index = (y * this.width + x) << 2;
       const red = this.pixelData.data[index];
       const green = this.pixelData.data[index + 1];
       const blue = this.pixelData.data[index + 2];
@@ -155,35 +156,47 @@ export class CanvasWriterPlus extends CanvasWriter
 
     applyAtColor(x: number, y: number, color: number, strength: number)
     {
+
         const prev = this.getAt(x,y);
-        this.setAtColor(x, y, ~~(strength*(color & 0xFF) + (1-strength)*(prev & 0xFF)), ~~(strength*(color>>8 & 0xFF) + (1-strength)*(prev>>8 & 0xFF)), ~~(strength*(color>>16 & 0xFF) + (1-strength)*(prev>>16 & 0xFF)))
+        //this.setAtColor(x, y, ~~(strength*(color & 0xFF) + (1-strength)*(prev & 0xFF)), ~~(strength*((color>>8) & 0xFF) + (1-strength)*((prev>>8) & 0xFF)), ~~(strength*((color>>16) & 0xFF) + (1-strength)*((prev>>16) & 0xFF)))
+        color = ~~(color & 0xFF)*strength + (255*(1 - strength)) + ((~~((color >> 8) & 0xFF)*strength + (255*(1 - strength))) << 8) + ((~~((color >> 16) & 0xFF)*strength + (255*(1 - strength))) << 16)
+        //this.setAtColor(x,y, ((color & 0xFF) + (prev & 0xFF))>>1, (((color >> 8) & 0xFF) + ((prev >> 8) & 0xFF))>>1, (((color >> 16) & 0xFF) + ((prev >> 16) & 0xFF))>>1)
+        this.setAtColor(x,y, ~~Math.min((color & 0xFF), prev & 0xFF),~~Math.min(((color>>8) & 0xFF), (prev>>8) & 0xFF),~~Math.min(((color>>16) & 0xFF), (prev>>16) & 0xFF))
     }
 
     //draw rectange with floating point cordients, if the pixel is partiley colored, draw part of the pixel
     drawFloatRect(x1: number, y1: number, x2: number, y2: number, color: number)
     {
-        const rx1 = ~~x1;
-        const ry1 = ~~y1;
-        const rx2 = ~~x2;
-        const ry2 = ~~y2;
-        this.setRect(Math.ceil(x1), Math.ceil(y1), rx2, ry2, color); //fill the inner of the line
-        const x1s = (1 - x1) % 1;
-        const y1s = (1 - y1) % 1;
-        if (rx1 >= 0)
+
+        if (x1 >= this.width || y1 >= this.height || x2 < 0 || y2 < 0 || x1 > x2 || y1 > y2) return;
+        const rx1 = Math.floor(x1);
+        const ry1 = Math.floor(y1);
+        const rx2 = Math.floor(x2);
+        const ry2 = Math.floor(y2);
+        this.setRect(rx1 + 1, ry1 + 1, rx2, ry2, color); //fill the inner of the line
+        const x1s = 1 - Math.abs(x1 % 1);
+        const y1s = 1 - Math.abs(y1 % 1);
+        const x2s = x2 - rx2;
+        const y2s = y2 - ry2;
+        
+        const limx = Math.min(this.width, rx2);
+        const limy = Math.min(this.height, ry2 + 1);
+
+        for (let i = Math.max(0,ry1 + 1); i < limy; i++)
         {
-            let lim = Math.min(this.height, ry2);
-            for (let i = Math.max(0, ry1 + 1); i < lim; i++)
-            {
-                this.applyAtColor(rx1,i,color, x1s);
-            }
+            if(rx1 >= 0) {this.applyAtColor(rx1,i,color, x1s);}
+            if (rx2 < this.width) {this.applyAtColor(rx2,i,color, x2s);}
         }
-        if (ry1 >= 0)
+
+        for (let i = Math.max(0,rx1 + 1); i < limx; i++)
         {
-            let lim = Math.min(this.width, rx2);
-            for (let i = Math.max(0, rx1 + 1); i < lim; i++)
-            {
-                this.applyAtColor(i,ry1,color, y1s);
-            }
+            if(ry1 >= 0) {this.applyAtColor(i,ry1,color, y1s);}
+            if (ry2 < this.height){ this.applyAtColor(i,ry2,color, y2s);}
         }
+
+        if (rx1 >= 0 && ry1 >= 0) {this.applyAtColor(rx1, ry1, color, Math.min(x1s, y1s));}
+        if (rx1 >= 0 && ry2 < this.height) {this.applyAtColor(rx1, ry2, color, Math.min(x1s,y2s));}
+        if (rx2 < this.width && ry1 >= 0) {this.applyAtColor(rx2, ry1, color, Math.min(x2s,y1s));}
+        if (rx2 < this.width && ry2 < this.height) {this.applyAtColor(rx2, ry2, color, Math.min(x2s,y2s));}
     }
 }

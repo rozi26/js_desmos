@@ -8,14 +8,14 @@ export class Transformer2DLinear extends Transformer2DBase
     CY: number;
     ratio: number;
 
-    constructor(screenWidth: number, screenHeight: number, cx: number = -1, ratio: number = 0.01)
+    constructor(screenWidth: number, screenHeight: number, cx: number = undefined, ratio: number = 0.01)
     {
         super()
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.ratio = ratio;
-        this.CX = cx;
-        this.CY = cx + this.ratio - this.ratio * this.screenHeight / this.screenWidth;
+        this.CX = (cx == undefined) ? -2*this.screenWidth*this.ratio : cx;
+        this.CY = 0.5*this.CX + this.ratio - this.ratio * this.screenHeight / this.screenWidth;
     }
 
     updateBuffers()
