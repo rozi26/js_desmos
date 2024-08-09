@@ -3,7 +3,7 @@ import { IdentifyNumber } from "../../General/IdentifyNumber.js";
 import { Transformer2DBase } from "./Transformers/Transformer2DBase.js";
 import { Transformer2DLinear } from "./Transformers/Transformer2DLinear.js";
 
-export abstract class GridLayerBase
+export abstract class LayerBase
 {
     public ID: IdentifyNumber = new IdentifyNumber();
     protected writer: CanvasWriterPlus | undefined;

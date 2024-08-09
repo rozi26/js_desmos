@@ -1,5 +1,5 @@
 import { CanvasWriterPlus } from "../../../App/canvesWriter.js";
-import { GridLayerBase } from "../../../Mappers/2D/GridLayerBase.js";
+import { LayerBase } from "../../../Mappers/2D/LayerBase.js";
 import { Transformer2DLinear } from "../../../Mappers/2D/Transformers/Transformer2DLinear.js";
 import { RegularNum } from "../../../Math/Numbers/RegularNum.js";
 import { Operation, getDefultRegularOperations } from "../../../Parser/Operations.js";

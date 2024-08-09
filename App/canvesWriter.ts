@@ -1,5 +1,6 @@
 import { Color } from "../General/Color.js";
 import { LINE_WIDTH, LINE_COLOR } from "./settings.js";
+import { Transformer2DExpX } from '../Mappers/2D/Transformers/Transformer2DExpX';
 
 function    colorToRGB(color: number): number[]
 {
@@ -31,7 +32,6 @@ export class CanvasWriter {
         this.pixelData = this.context.getImageData(0, 0, this.width, this.height);
     }
 
-  
     setAt(x: number, y: number, color: number) {
       const rgb = colorToRGB(color);
       this.setAtColor(x, y, rgb[0], rgb[1], rgb[2]);
@@ -150,6 +150,40 @@ export class CanvasWriterPlus extends CanvasWriter
         {
             width = ~~Math.sqrt(r2 - ay*ay);
             super.setRect(x-width,y+ay,x+width,y+ay+1,color);
+        }
+    }
+
+    applyAtColor(x: number, y: number, color: number, strength: number)
+    {
+        const prev = this.getAt(x,y);
+        this.setAtColor(x, y, ~~(strength*(color & 0xFF) + (1-strength)*(prev & 0xFF)), ~~(strength*(color>>8 & 0xFF) + (1-strength)*(prev>>8 & 0xFF)), ~~(strength*(color>>16 & 0xFF) + (1-strength)*(prev>>16 & 0xFF)))
+    }
+
+    //draw rectange with floating point cordients, if the pixel is partiley colored, draw part of the pixel
+    drawFloatRect(x1: number, y1: number, x2: number, y2: number, color: number)
+    {
+        const rx1 = ~~x1;
+        const ry1 = ~~y1;
+        const rx2 = ~~x2;
+        const ry2 = ~~y2;
+        this.setRect(Math.ceil(x1), Math.ceil(y1), rx2, ry2, color); //fill the inner of the line
+        const x1s = (1 - x1) % 1;
+        const y1s = (1 - y1) % 1;
+        if (rx1 >= 0)
+        {
+            let lim = Math.min(this.height, ry2);
+            for (let i = Math.max(0, ry1 + 1); i < lim; i++)
+            {
+                this.applyAtColor(rx1,i,color, x1s);
+            }
+        }
+        if (ry1 >= 0)
+        {
+            let lim = Math.min(this.width, rx2);
+            for (let i = Math.max(0, rx1 + 1); i < lim; i++)
+            {
+                this.applyAtColor(i,ry1,color, y1s);
+            }
         }
     }
 }

@@ -1,13 +1,13 @@
 import { Grid2D } from "./Grid2D.js";
 import {CanvasWriterPlus } from "../../App/canvesWriter.js";
-import { GridLayerBase } from "./GridLayerBase.js";
+import { LayerBase } from "./LayerBase.js";
 import { IdentifyNumber } from "../../General/IdentifyNumber.js";
 import { transformerCreator } from "./Transformers/Transformer2DBase.js";
 
 export class Layered2D extends Grid2D
 {
-    protected layers : GridLayerBase[];
-    protected rightFocusLayer: GridLayerBase | undefined = undefined;
+    protected layers : LayerBase[];
+    protected rightFocusLayer: LayerBase | undefined = undefined;
 
     constructor(writer: CanvasWriterPlus, creator: transformerCreator)
     {
@@ -15,7 +15,7 @@ export class Layered2D extends Grid2D
         this.layers = [];
     }
     
-    addLayer(layer : GridLayerBase)
+    addLayer(layer : LayerBase)
     {
         layer.setData(this.writer, this.transformer);
         this.layers.push(layer);
@@ -33,7 +33,7 @@ export class Layered2D extends Grid2D
     }
 
     //advange methods
-    renderWithoutLayer(excludeLayer: GridLayerBase)
+    renderWithoutLayer(excludeLayer: LayerBase)
     {
         const renderArea = excludeLayer.getEffectRectangle();
         for (let i = 0; i < this.layers.length; i++)
@@ -44,7 +44,7 @@ export class Layered2D extends Grid2D
         this.writer.render(renderArea[0],renderArea[1],renderArea[2],renderArea[3])
     }
 
-    renderSingleLayer(layer: GridLayerBase)
+    renderSingleLayer(layer: LayerBase)
     {
         const renderArea = layer.getEffectRectangle();
         layer.renderAt(renderArea[0],renderArea[1],renderArea[2],renderArea[3]);

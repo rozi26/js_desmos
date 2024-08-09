@@ -1,7 +1,7 @@
 import { IdentifyNumber } from "../../../General/IdentifyNumber.js";
-import { GridLayerBase } from "../GridLayerBase.js";
+import { LayerBase } from "../LayerBase.js";
 
-export class Point2DLayer extends GridLayerBase
+export class Point2DLayer extends LayerBase
 {
     lx: number;
     ly: number;

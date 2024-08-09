@@ -1,5 +1,5 @@
 import { Color } from "../../General/Color.js";
-import { GridLayerBase } from "../../Mappers/2D/GridLayerBase.js";
+import { LayerBase } from "../../Mappers/2D/LayerBase.js";
 import { Layered2D } from "../../Mappers/2D/Layered2D.js";
 import { Transformer2DLinear } from "../../Mappers/2D/Transformers/Transformer2DLinear.js";
 import { Polinum } from "../../Math/General/Polinum.js";

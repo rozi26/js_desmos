@@ -1,11 +1,11 @@
 import { Color } from "../../General/Color.js";
 import { IdentifyNumber } from "../../General/IdentifyNumber.js";
-import { GridLayerBase } from "../../Mappers/2D/GridLayerBase.js";
+import { LayerBase } from "../../Mappers/2D/LayerBase.js";
 import { ColorizeBase } from "./Colorize/ColorizeBase.js";
 import { FRACTEL_COLORIZERS } from "./Colorize/ColorizerList.js";
 
 
-export abstract class PixelLoaderBase extends GridLayerBase
+export abstract class PixelLoaderBase extends LayerBase
 {
     public gridSize: number = 9;
     public colorizer: ColorizeBase

@@ -1,6 +1,6 @@
-import { GridLayerBase } from "../GridLayerBase.js";
+import { LayerBase } from "../LayerBase.js";
 
-export class BackgroundLayer extends GridLayerBase
+export class BackgroundLayer extends LayerBase
 {
     r : number;
     g : number;

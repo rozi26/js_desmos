@@ -1,6 +1,6 @@
-import { GridLayerBase } from "../GridLayerBase.js";
+import { LayerBase } from "../LayerBase.js";
 
-export class CenterBallLayer extends GridLayerBase
+export class CenterBallLayer extends LayerBase
 {
     renderAt(px1: number, py1: number, px2: number, py2: number)
     {

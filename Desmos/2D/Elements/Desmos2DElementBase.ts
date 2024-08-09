@@ -1,10 +1,10 @@
-import { GridLayerBase } from "../../../Mappers/2D/GridLayerBase.js";
+import { LayerBase } from "../../../Mappers/2D/LayerBase.js";
 import { Transformer2DBase } from "../../../Mappers/2D/Transformers/Transformer2DBase.js";
 import { DesmosElementBase } from "../../Menu/DesmosElementBase.js";
 
 export enum Desmos2DElementsTypes {Function, Point,Var, None}
 
-export abstract class Desmos2DElementBase extends GridLayerBase implements DesmosElementBase
+export abstract class Desmos2DElementBase extends LayerBase implements DesmosElementBase
 {
     abstract getName();
     abstract getLogo();

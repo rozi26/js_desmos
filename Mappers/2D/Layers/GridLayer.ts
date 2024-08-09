@@ -1,8 +1,8 @@
-import { GridLayerBase } from "../GridLayerBase.js";
+import { LayerBase } from "../LayerBase.js";
 import {GRID_LOG_LEVEL, CENTER_GRID_THICKNESS, SECANDERY_GRID_THICKNESS, THIRD_GRID_THICKNESS, CENTER_GRID_COLOR, SECANDERY_GRID_COLOR, THIRD_GRID_COLOR} from "../../../App/settings.js";
 
 
-export class GridLayer extends GridLayerBase
+export class GridLayer extends LayerBase
 {
     renderAt(px1: number, py1: number, px2: number, py2: number)
     {
