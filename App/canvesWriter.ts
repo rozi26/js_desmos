@@ -1,7 +1,7 @@
 import { Color } from "../General/Color.js";
 import { LINE_WIDTH, LINE_COLOR } from "./settings.js";
 import { Transformer2DExpX } from '../Mappers/2D/Transformers/Transformer2DExpX';
-import { realFloor } from "../General/Utils.js";
+import { realFloor, getCharPixels } from "../General/Utils.js";
 
 function    colorToRGB(color: number): number[]
 {
@@ -198,5 +198,31 @@ export class CanvasWriterPlus extends CanvasWriter
         if (rx1 >= 0 && ry2 < this.height) {this.applyAtColor(rx1, ry2, color, Math.min(x1s,y2s));}
         if (rx2 < this.width && ry1 >= 0) {this.applyAtColor(rx2, ry1, color, Math.min(x2s,y1s));}
         if (rx2 < this.width && ry2 < this.height) {this.applyAtColor(rx2, ry2, color, Math.min(x2s,y2s));}
+    }
+
+    writeText(text: string, x :number, y: number, push_x: number=0, push_y: number=0, color: number = 0, space=5)
+    {
+        let width = space * (text.length - 1);
+        let height = 0;
+        for (let i = 0; i < text.length; i++)
+        {
+            const arr = getCharPixels(text[i]);
+            height = Math.max(height,arr.length)
+            width += arr[0].length;
+        }
+        const charY = Math.floor(y + height*push_y);
+        let charX = Math.floor(x + width*push_x);
+        for (let i = 0; i < text.length; i++)
+        {
+            const arr = getCharPixels(text[i]);
+            for (let py = 0; py < arr.length; py++)
+            {
+                for (let px = 0; px < arr[0].length; px++)
+                {
+                    if (arr[py][px]) this.setAt(charX + px, charY + py, color);
+                }
+            }
+            charX += arr[0].length + space;
+        }
     }
 }

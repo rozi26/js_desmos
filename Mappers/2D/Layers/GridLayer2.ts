@@ -6,8 +6,10 @@ const CENTER_LINE_COLOR = 35 + (35<<8) + (35<<16)
 const SUB_LINE_COLOR1 = 120 + (120<<8) + (120<<16)
 const SUB_LINE_COLOR2 = 180 + (180<<8) + (180<<16)
 const CENTER_LINE_RAD = 0.8;
-const LINE1_RAD = 0.4;
-const LINE2_RAD = 0.2;
+const WITH_TEXT = true;
+
+const TEXT_COLOR1 = 20 + (20<<8) + (20<<16)
+const TEXT_COLOR2 = 120 + (120<<8) + (120<<16)
 
 export class GridLayer2 extends LayerBase
 {
@@ -23,6 +25,12 @@ export class GridLayer2 extends LayerBase
         
         const cx = this.transformer.locToPixelX(0);
         const cy = this.transformer.locToPixelY(0);
+
+        if (WITH_TEXT) //set the text propaties
+        {
+            
+        }
+
         if (px1 <= cx && px2 >= cx)
         {
             this.writer.drawFloatRect(cx-CENTER_LINE_RAD,py1, cx+CENTER_LINE_RAD, py2, CENTER_LINE_COLOR)
@@ -44,7 +52,6 @@ export class GridLayer2 extends LayerBase
         {
             const px = Math.floor(this.transformer.locToPixelX(lineX2));
             this.writer.setRect(px, py1, px + 1, py2, SUB_LINE_COLOR2)
-            //this.writer.drawFloatRect(px-LINE2_RAD,py1, px+LINE2_RAD, py2, SUB_LINE_COLOR);
             lineX2 += sub_jump;
         }
 
@@ -53,8 +60,8 @@ export class GridLayer2 extends LayerBase
         {
             const px = Math.floor(this.transformer.locToPixelX(lineX1));
             this.writer.setRect(px, py1, px + 1, py2, SUB_LINE_COLOR1)
-            //this.writer.drawFloatRect(px-LINE1_RAD,py1, px+LINE1_RAD, py2, SUB_LINE_COLOR);
             lineX1 += main_jump;
+            this.writer.writeText("" + lineX1, px, 40)
         }
 
         let lineY2 = startY - (startY % sub_jump)
@@ -62,7 +69,6 @@ export class GridLayer2 extends LayerBase
         {
             const py = Math.floor(this.transformer.locToPixelY(lineY2));
             this.writer.setRect(px1,py, px2, py+1, SUB_LINE_COLOR2)
-            //this.writer.drawFloatRect(px1, py - LINE2_RAD, px2, py + LINE2_RAD, SUB_LINE_COLOR);
             lineY2 -= sub_jump;
         }
 
@@ -71,7 +77,6 @@ export class GridLayer2 extends LayerBase
         {
             const py = Math.floor(this.transformer.locToPixelY(lineY1));
             this.writer.setRect(px1,py, px2, py+1, SUB_LINE_COLOR1)
-            //this.writer.drawFloatRect(px1, py - LINE1_RAD, px2, py + LINE1_RAD, SUB_LINE_COLOR);
             lineY1 -= main_jump;
         }
 
