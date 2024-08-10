@@ -54,8 +54,7 @@ export class CanvasWriter {
 
     setRect(x1: number, y1: number, x2: number, y2: number, color: number)
     {
-        const rgb = colorToRGB(color);
-        this.setRectAtColor(x1,y1,x2,y2,rgb[0],rgb[1],rgb[2]);
+        this.setRectAtColor(x1,y1,x2,y2,color & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF);
     }
 
     setRectAtColor(x1: number, y1: number, x2: number, y2: number, r: number, g: number, b: number)

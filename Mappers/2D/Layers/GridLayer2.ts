@@ -3,9 +3,9 @@ import { LayerBase } from "../LayerBase.js";
 
 
 const MINIMUM_DISTANTE_PIXELS = 100;
-const CENTER_LINE_COLOR = 35 + (35<<8) + (35<<16)
+const CENTER_LINE_COLOR = 0
 const SUB_LINE_COLOR1 = 120 + (120<<8) + (120<<16)
-const SUB_LINE_COLOR2 = 180 + (180<<8) + (180<<16)
+const SUB_LINE_COLOR2 = 200 + (200<<8) + (200<<16)
 const CENTER_LINE_RAD = 0.8;
 const WITH_TEXT = true;
 
@@ -18,8 +18,8 @@ export class GridLayer2 extends LayerBase
     renderAt(px1: number, py1: number, px2: number, py2: number) {
         //calculate the gup size between the lines
         const sizeX = this.transformer.ratio * MINIMUM_DISTANTE_PIXELS;
-        const digitsSide = Math.ceil(Math.log10(sizeX));
-        const mang = Math.pow(10,digitsSide);
+        const digitsSide = Math.ceil(Math.log10(sizeX)) - 1;
+        const mang = (10 ** digitsSide) * 5;
         let rel = sizeX / mang;
         rel = (rel <= 1) ? 1 : ((rel <= 2) ? 2 : 5);
         const main_jump = rel * mang; // the jump between the thick lines
@@ -30,8 +30,9 @@ export class GridLayer2 extends LayerBase
 
         if (WITH_TEXT) //set the text propaties
         {
+            const Y_AXIS_TEXT_LENGTH = Math.max(2, digitsSide) * 10;
             var X_AXIS_TEXT_Y = (cy < 0) ? 0 : ((cy >= this.writer.height - 10) ? this.writer.height : cy);
-            var Y_AXIS_TEXT_X = (cx < 0) ? 0 : ((cx >= this.writer.width - 10)  ? this.writer.width : cx);
+            var Y_AXIS_TEXT_X = (cx < Y_AXIS_TEXT_LENGTH) ? 0 : ((cx >= this.writer.width - 10)  ? this.writer.width : cx);
         }
 
         if (px1 <= cx && px2 >= cx)
@@ -64,13 +65,13 @@ export class GridLayer2 extends LayerBase
         {
             const px = Math.floor(this.transformer.locToPixelX(lineX1));
             this.writer.setRect(px, py1, px + 1, py2, SUB_LINE_COLOR1)
-            this.writer.writeTextOnContext("" + round(lineX1,Math.max(0,-digitsSide)), px, X_AXIS_TEXT_Y, (lineX1 == 0 ? -1.1 : -0.5),(X_AXIS_TEXT_Y == this.writer.height ? -1 : 0.1), WHITE)
+            this.writer.writeTextOnContext("" + round(lineX1,Math.max(0,-digitsSide)), px, X_AXIS_TEXT_Y, (lineX1 == 0 ? -1.3 : -0.5),(X_AXIS_TEXT_Y == this.writer.height ? -1.3 : 0.3), WHITE)
             lineX1 += main_jump;
         }
 
         this.writer.setTextOnContextColor(Y_AXIS_TEXT_X == cx ? TEXT_COLOR1 : TEXT_COLOR2); //if the number axis is not on the axis line make them in diffrent color
         let lineY2 = startY - (startY % sub_jump)
-        while (lineY2 > LINE_Y_MAX)
+        while (lineY2 > LINE_Y_MAX) //the sub lines of the y axis
         {
             const py = Math.floor(this.transformer.locToPixelY(lineY2));
             this.writer.setRect(px1,py, px2, py+1, SUB_LINE_COLOR2)
@@ -78,11 +79,11 @@ export class GridLayer2 extends LayerBase
         }
 
         let lineY1 = startY - (startY % main_jump)
-        while (lineY1 > LINE_Y_MAX)
+        while (lineY1 > LINE_Y_MAX) //the main lines of the y axis
         {
             const py = Math.floor(this.transformer.locToPixelY(lineY1));
             this.writer.setRect(px1,py, px2, py+1, SUB_LINE_COLOR1)
-            this.writer.writeTextOnContext("" + lineY1, Y_AXIS_TEXT_X, py, (Y_AXIS_TEXT_X == 0 ? 0.1 : -1.1), (lineY1 == 0) ? 0.1: -0.5, WHITE)
+            this.writer.writeTextOnContext("" + round(lineY1,Math.max(0,-digitsSide)), Y_AXIS_TEXT_X, py, (Y_AXIS_TEXT_X == 0 ? 0.3 : -1.3), (lineY1 == 0) ? 0.3: -0.5, WHITE)
             lineY1 -= main_jump;
         }
 

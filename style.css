@@ -1,23 +1,25 @@
 :root
 {
-    --side_width: max(150px, 15vw);
-    --top_height: max(60px, 6vh);
+    --side_width: max(150px, 10vw);
+    --top_height: max(30px, 3vh);
     --bottom_height: max(30px, 3vh);
     --margin: 10px;
+    --side_menu_buffer_width: 3px;
+    --top_menu_buffer_height: 3px;
 }
 
 #top_menu
 {
     width: 100vw;
     height: var(--top_height);
-    border-bottom: 5px black solid;
+    border-bottom: var(--top_menu_buffer_height) black solid;
+    background-color: #2a2a2a;
 }
 
 #side_menu
 {
     width: var(--side_width);
     height: calc(100vh - var(--top_height) - var(--margin));
-    border-right: 5px black solid;
 }
 
 #bottom_menu
@@ -33,14 +35,26 @@
     align-items: center;
 }
 
+#side_menu_buffer
+{
+    position: absolute;
+    background-color: black;
+    width: var(--side_menu_buffer_width);
+    height: calc(100vh - var(--top_height));
+    top: var(--top_height);
+    left: var(--side_width);
+}
+
+
 #canves
 {
     position: absolute;
     top: var(--top_height);
-    left: var(--side_width);
+    left: calc(var(--side_width) + var(--side_menu_buffer_width));
     width: calc(100vw - var(--side_width) - var(--margin));
     height: calc(100vh - var(--top_height) - var(--margin) - var(--bottom_height));
-    border-style: dashed;
+    border-style: solid;
+    border-left-style: none;
 }
 
 body
