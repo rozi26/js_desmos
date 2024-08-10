@@ -7,6 +7,11 @@ function    colorToRGB(color: number): number[]
 {
    return [(color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF];
 }
+
+function colorToCssRGB(color: number): string
+{
+    return `rgb(${color & 0xFF},${(color >> 8) & 0xFF},${(color >> 16) & 0xFF})`
+}
     
 export class CanvasWriter {
     width: number;
@@ -21,7 +26,7 @@ export class CanvasWriter {
       this.height = canvas.height;
       this.canvas = canvas;
       console.log(this.width);
-      this.context = this.canvas.getContext('2d');
+      this.context = this.canvas.getContext('2d', { willReadFrequently: true });
       this.pixelData = this.context.getImageData(0, 0, this.width, this.height);
     }
 
@@ -103,10 +108,13 @@ export class CanvasWriter {
 }
 
 export class CanvasWriterPlus extends CanvasWriter
-{
+{   
+    context_methods: (() => void)[];
     constructor(canvas: HTMLCanvasElement)
     {
         super(canvas);
+        this.context_methods = [];
+        this.context.font = "bold 10px Arial"
     }
 
     drawLine(x1: number, y1: number, x2: number, y2: number, color: number = LINE_COLOR, width: number = LINE_WIDTH)
@@ -225,4 +233,33 @@ export class CanvasWriterPlus extends CanvasWriter
             charX += arr[0].length + space;
         }
     }
+
+    writeTextOnContext(text: string, x :number, y: number, push_x: number=0, push_y: number=0, background_color: number = undefined)
+    {
+        const text_size = this.context.measureText(text);
+        x += text_size.width * push_x;
+        y = (y + text_size.hangingBaseline) + text_size.hangingBaseline * push_y;
+        if (background_color == undefined) this.context_methods.push(() => this.context.fillText(text,x,y));
+        else
+        {
+            this.context_methods.push(() => {
+                const bg = this.context.fillStyle;
+                this.context.fillStyle = colorToCssRGB(background_color);
+                this.context.fillRect(x, y - text_size.hangingBaseline, text_size.width, text_size.hangingBaseline);
+                this.context.fillStyle = bg;
+                this.context.fillText(text,x,y)}
+            );
+        }
+    }
+
+    setTextOnContextColor(color: number)
+    {
+        this.context_methods.push(() => this.context.fillStyle = `rgb(${color & 0xFF},${(color >> 8) & 0xFF},${(color >> 16) & 0xFF})`)
+    }
+
+    render(x1: number, y1: number, x2: number, y2: number) {
+        super.render(x1,y1,x2,y2);
+        this.context_methods.forEach(method => method());
+        this.context_methods = [];
+      }
 }
