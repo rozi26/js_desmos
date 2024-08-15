@@ -5,18 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="style.css", rel="stylesheet">
+    <link href="_Libaries/mathquill/mathquill.css" rel="stylesheet"/> <!-- FOR MATH INPUT -->
 </head>
-<body>
+<body id="body">
     <div id="top_menu">
-
     </div>
     <div id="side_menu">
-
     </div>
     <div id="side_menu_buffer"></div>
     <div id="bottom_menu">
     </div>
     <canvas id="canves"></canvas>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- FOR MATH INPUT -->
+    <script src="_Libaries/mathquill/mathquill.js"></script> <!-- FOR MATH INPUT -->
+
+    <input type="text" class="mathquill-embedded-latex" id="math-input">
     <script src="_out/test.js" type="module"></script>
 </body>
 </html>

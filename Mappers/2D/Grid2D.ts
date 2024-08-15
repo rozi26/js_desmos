@@ -22,7 +22,8 @@ export abstract class Grid2D implements ICanvesEventResiver, ICanvesDisplayer
     resize(width: number, height: number)
     {
         this.transformer.changeScreenSize(width, height);
-        this.renderAt(0,0,this.writer.width,this.writer.height);
+        this.writer.resize(width,height);
+        this.fullRender();
     }
 
     abstract renderAt(px1: number, py1: number, px2: number, py2: number);

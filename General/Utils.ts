@@ -58,3 +58,6 @@ export function getCharPixels(char: string): number[][]
     else if (char === 'y') {return [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,1,0,0,1],[0,1,0,1,0],[0,1,0,1,0],[0,0,1,0,0]];}
     else if (char === 'z') {return [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,1,1,1,1],[0,0,0,1,0],[0,0,1,0,0],[0,1,1,1,1]];}
 }
+
+// @ts-ignore
+export const MQ = MathQuill.getInterface(2);

@@ -16,7 +16,7 @@ export class Color
 
     getAsSingleValue(): number
     {
-        return (this.r<<16) + (this.g<<8) + (this.b)
+        return (this.b<<16) + (this.g<<8) + (this.r)
     }
 }
 

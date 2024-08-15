@@ -1,11 +1,15 @@
 :root
 {
-    --side_width: max(150px, 10vw);
+    --side_width: max(300px, 15vw);
     --top_height: max(30px, 3vh);
     --bottom_height: max(30px, 3vh);
     --margin: 10px;
     --side_menu_buffer_width: 3px;
     --top_menu_buffer_height: 3px;
+
+    --desmos_block_height: 50px;
+    --desmos_block_drag_area_width: 30px;
+    --desmos_block_menu_area_width: 30px;
 }
 
 #top_menu
@@ -45,6 +49,11 @@
     left: var(--side_width);
 }
 
+#side_menu_buffer:hover
+{
+    cursor: w-resize;
+}
+
 
 #canves
 {
@@ -61,4 +70,38 @@ body
 {
     margin: 0px;
     padding: 0px;
+}
+
+
+/*styles for desmos elemnts*/
+.desmos_block
+{
+    width: 100%;
+    height: 50px;
+    border-bottom-style: solid;
+    display: flex;
+}
+.desmos_block_drag_area
+{
+    height: 100%;
+    width: var(--desmos_block_drag_area_width);
+    border-right: black solid 2px;
+}
+.desmos_block_menu_area
+{
+    height: 100%;
+    width: var(--desmos_block_menu_area_width);
+    border-left: black solid 2px;
+    background-color: blue;
+}
+.desmos_block_write_area
+{
+    padding: 0px;
+    height: 90%;
+    width: calc(var(--side_width) - var(--desmos_block_drag_area_width) - var(--desmos_block_menu_area_width) - 4px);
+    padding-right: 10px;
+}
+.desmos_block_write_area:hover
+{
+    cursor: text;
 }

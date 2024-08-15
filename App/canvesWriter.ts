@@ -236,6 +236,7 @@ export class CanvasWriterPlus extends CanvasWriter
     writeTextOnContext(text: string, x :number, y: number, push_x: number=0, push_y: number=0, background_color: number = undefined)
     {
         const text_size = this.context.measureText(text);
+        text_size.hangingBaseline;
         x += text_size.width * push_x;
         y = (y + text_size.hangingBaseline) + text_size.hangingBaseline * push_y;
         if (background_color == undefined) this.context_methods.push(() => this.context.fillText(text,x,y));

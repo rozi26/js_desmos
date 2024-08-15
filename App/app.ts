@@ -7,10 +7,12 @@ import { FractelsRegularDisplayer } from "../Fractels/Regular/FractelsRegularDis
 import { NewtonRafsonDisplayer } from "../Fractels/NewtonRafson/NewtonRafsonDisplayer.js";
 import { Desmos2D2Page } from "../Desmos2D2/UI/Desmos2D2Page.js";
 
+const body = document.getElementById("body")
 const canves: HTMLCanvasElement = document.getElementById("canves") as HTMLCanvasElement;
 const topMenu = document.getElementById("top_menu");
 const sideMenu = document.getElementById("side_menu");
 const bottomMenu = document.getElementById("bottom_menu");
+const sideMenuBuffer = document.getElementById("side_menu_buffer")
 
 const writer: CanvasWriterPlus = new CanvasWriterPlus(canves);
 //let res : ICanvesDisplayer = new test2d(writer);
@@ -18,6 +20,9 @@ const writer: CanvasWriterPlus = new CanvasWriterPlus(canves);
 //let res = new FractelsRegularDisplayer(writer);
 //let res = new NewtonRafsonDisplayer(writer);
 let res = new Desmos2D2Page(writer);
+
+let isMouseDown = false;
+let isDragSideMenu = false;
 
 function resize()
 {
@@ -46,6 +51,28 @@ export function Run()
     resize();
 
     changeResiver(res);
+
+    //make the side menu dragable
+    body.addEventListener("mousedown", (e) => {isMouseDown = true;});
+    body.addEventListener("mouseup", (e) => {isMouseDown = false});
+    body.addEventListener("mouseleave", (e) => {isMouseDown = false;})
+    sideMenuBuffer.addEventListener("mousedown",(e) => {isDragSideMenu = true;}) 
+    body.addEventListener("mousemove", (e) => {
+        if (isDragSideMenu)
+        {
+            if (isMouseDown)
+            {
+                document.documentElement.style.setProperty("--side_width",`max(${Math.min(e.x,900)}px, 10vw)`);
+                resize();
+            } 
+            else
+            {
+                isDragSideMenu = false;
+            }
+        }
+    })
+    
+
     
     writer.fullRender();
 }
