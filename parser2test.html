@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test parse2</title>
+    <link href="_Libaries/mathquill/mathquill.css" rel="stylesheet"/> <!-- FOR MATH INPUT -->
+</head>
+<style>
+    span
+    {
+        width: 20%;
+    }
+    label
+    {
+        margin: 10px;
+        padding: 5px;
+    }
+</style>
+<body>
+    <span id="inpspan"></span> <br>
+    <label id="l0"></label> <br>
+    <label id="l1"></label> <br>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- FOR MATH INPUT -->
+    <script src="_Libaries/mathquill/mathquill.js"></script> <!-- FOR MATH INPUT -->
+    <script src="_out/test.js" type="module"></script>
+    <script type="module">
+        import {PreProcess} from "./_out/Parser/Parser2.js"
+    </script>
+    <script type="module">
+        import {PreProcess} from "./_out/Parser/Parser2.js"
+        const lbls = [];
+        for (let i = 0; i < 2; i++)
+        {
+            lbls[i] = document.getElementById("l" + i);
+        }
+        const inp = document.getElementById("inpspan")
+        const MQ = MathQuill.getInterface(2);
+        const mathField = MQ.MathField(inp, {
+            spaceBehavesLikeTab: true, // configurable
+            autoCommands: 'pi theta sqrt sum prod',
+            handlers: {
+              edit: function() { // useful event handlers
+                const data = mathField.latex()
+                lbls[0].textContent = data
+                lbls[1].textContent = PreProcess(data);
+              }
+            }
+          });
+    </script>
+</body>
+</html>

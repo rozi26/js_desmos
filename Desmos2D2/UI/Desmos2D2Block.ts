@@ -29,9 +29,9 @@ export class Desmos2D2Block
         if (math_input)
         {
             this.text_input_element = document.createElement("span");
-            const  mathField = MQ.MathField(this.text_input_element, {
+            const mathField = MQ.MathField(this.text_input_element, {
                 spaceBehavesLikeTab: true, // configurable
-                autoCommands: 'pi theta sqrt sum prod ',
+                autoCommands: 'pi theta sqrt sum prod',
                 handlers: {
                   edit: function() { // useful event handlers
                     this.text_input_latex = mathField.latex(); // simple API
