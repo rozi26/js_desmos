@@ -58,6 +58,54 @@ export class Matrix<T extends NumberBase<T>>
         for (let i = 0; i < this.vals.length; i++) {for (let g = 0; g < this.vals[0].length; g++) this.vals[i][g].mul(scalar)};
     }
 
+    //matrix operations
+    private swapLines(line1: number, line2: number): void
+    {
+        let v;
+        for (let i = 0; i < this.vals[0].length; i++)
+        {
+            v = this.vals[line1][i];
+            this.vals[line1][i] = this.vals[line2][i];
+            this.vals[line2][i] = v;   
+        }
+    }
+    private addLine(destLine: number, sourceLine: number, scalar: T): void
+    {
+        let v;
+        for (let i = 0; i < this.vals[0].length; i++)
+        {
+            v = this.vals[sourceLine][i].clone();
+            v.mul(scalar);
+            this.vals[destLine][i].add(v);
+        }
+    }
+
+    getRank(): Matrix<T>
+    {
+        const res = this.clone();
+        const zero = this.vals[0][0].clone(); zero.sub(this.vals[0][0]);
+        let rank = 0;
+        for (let i = 0; i < this.vals[0].length; i++)
+        {
+            let row = rank;
+            while (row < this.vals.length && res.vals[row][i].equal(zero)) row++;
+            if (row == this.vals.length) continue;
+            if (row != rank) res.swapLines(rank,row);
+
+            const normalize_val = res.vals[rank][i];
+            for (let g = i; g < this.vals[0].length; g++) { res.vals[rank][g].dev(normalize_val);} //normilize the row
+            
+            for (let g = rank + 1; g < this.vals.length; g++)
+            {
+                if (res.vals[g][i].equal(zero)) continue;
+                const sf = zero.clone(); sf.sub(res.vals[g][i]);
+                res.addLine(g,rank,sf);
+            }
+            rank++;
+        }
+        return res;
+    }
+
     clone(): Matrix<T>
     {
         return new Matrix(this.vals.slice());
@@ -106,4 +154,5 @@ export function test()
     const mat = MatrixFromNums([[3,-4,5],[2,423436,2],[-3,54,1]]);
     mat.mul(mat);
     console.log(mat.toString());
+    console.log(mat.getRank().toString())
 }

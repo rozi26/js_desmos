@@ -7,9 +7,9 @@ import { NewtonRafsonSolve } from "./Math/Solvers/EquationSolver.js";
 import { Matrix, test } from "./Math/General/Matrix.js";
 
 ParseMathVars("1+1", getDefultRegularOperations());
-test()
+//test()
 
-//Run();
+Run();
 /*import {ParseMath} from "./Parser/Parser1.js";
 import { testParser } from "./Parser/Parser1Test.js";
 import { ComplexNum } from "./Math/Numbers/ComplexNum.js";

@@ -6,7 +6,6 @@ const MINIMUM_DISTANTE_PIXELS = 100;
 const CENTER_LINE_COLOR = 0
 const SUB_LINE_COLOR1 = 120 + (120<<8) + (120<<16)
 const SUB_LINE_COLOR2 = 200 + (200<<8) + (200<<16)
-const CENTER_LINE_RAD = 0.8;
 const WITH_TEXT = true;
 
 const TEXT_COLOR1 = 0;
