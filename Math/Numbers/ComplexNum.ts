@@ -64,6 +64,17 @@ export class ComplexNum extends NumberBase<ComplexNum>{
         this.r = r;
     }
 
+    sin(): void
+    {
+        const c1 = new ComplexNum(-this.i,this.r) // this * i
+        c1.exp();
+        const c2 = c1.clone(); c2.inverse();
+        c1.sub(c2);
+        c1.dev(new ComplexNum(0,2));
+        this.r = c1.r;
+        this.i = c1.i;
+    }
+
     cos(): void {
         const c1 = this.clone();
         c1.mul(new ComplexNum(0, -1));

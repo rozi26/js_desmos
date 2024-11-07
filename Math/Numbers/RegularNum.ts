@@ -34,6 +34,9 @@ export class RegularNum extends NumberBase<RegularNum>
     ln(): void {
         this.val = Math.log(this.val);
     }
+    sin(): void {
+        this.val = Math.sin(this.val);
+    }
     cos(): void {
         this.val = Math.cos(this.val);
     }

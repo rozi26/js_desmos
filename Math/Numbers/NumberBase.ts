@@ -1,5 +1,3 @@
-import { ComplexNum } from "./ComplexNum.js";
-
 export abstract class NumberBase<T extends NumberBase<T>>{
     abstract clone() : T;
     abstract add(num: T): void;
@@ -9,6 +7,7 @@ export abstract class NumberBase<T extends NumberBase<T>>{
     abstract pow(num: T): void;
     abstract exp(): void;
     abstract ln(): void;
+    abstract sin(): void;
     abstract cos(): void;
     abstract abs(): void;
     abstract equal(num: T): boolean;
@@ -31,6 +30,12 @@ export abstract class NumberBase<T extends NumberBase<T>>{
     inverse() : void
     {
         this.dev(this.fromNumber(1));
+    }
+
+    tan(): void
+    {
+        const c = this.clone(); c.cos();
+        this.sin(); this.dev(c);
     }
 
     greaterEqual(num :T) : boolean {return this.greater(num) || this.equal(num);}

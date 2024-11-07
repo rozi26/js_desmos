@@ -1,7 +1,11 @@
+import { Action } from "../../General/Action.js";
+import { IdentifyNumber } from "../../General/IdentifyNumber.js";
 import { MQ } from "../../General/Utils.js";
 
 export class Desmos2D2Block
 {
+    protected ID: IdentifyNumber;
+  
     private HTML_BLOCK: HTMLDivElement;
     private DRAG_AREA: HTMLDivElement;
     private MENU_AREA: HTMLDivElement;
@@ -9,8 +13,13 @@ export class Desmos2D2Block
     protected text_input_element: HTMLSpanElement | HTMLInputElement;
     protected text_input_latex: string;
 
+    protected TEXT_CHANGE_ACTION: Action<IdentifyNumber>;
+
     constructor(math_input = true)
     {
+        this.ID = new IdentifyNumber();
+        this.TEXT_CHANGE_ACTION = new Action();
+
         this.HTML_BLOCK = document.createElement("div");
         this.HTML_BLOCK.classList.add("desmos_block")
 
@@ -28,14 +37,16 @@ export class Desmos2D2Block
 
         if (math_input)
         {
+            const change_event: ((text: string) => void) = (text) => this.textChangeEvent(text);
             this.text_input_element = document.createElement("span");
             const mathField = MQ.MathField(this.text_input_element, {
                 spaceBehavesLikeTab: true, // configurable
                 autoCommands: 'pi theta sqrt sum prod',
                 handlers: {
-                  edit: function() { // useful event handlers
-                    this.text_input_latex = mathField.latex(); // simple API
-                    console.log(mathField.latex())
+                  edit: () => { // useful event handlers
+                    change_event(mathField.latex());
+                    //this.text_input_latex = mathField.latex(); // simple API
+                    //console.log(mathField.latex())
                   }
                 }
               });
@@ -52,8 +63,30 @@ export class Desmos2D2Block
         this.WRITE_AREA.appendChild(this.text_input_element)
     }
 
-    getHTML(): HTMLDivElement
+    textChangeEvent(text: string)
+    {
+        this.text_input_latex = text;
+        this.TEXT_CHANGE_ACTION.invoke(this.getId());
+        console.log(`text is ${text}`);
+    }
+
+    public getHTML(): HTMLDivElement
     {
         return this.HTML_BLOCK;
+    }
+
+    public getId(): IdentifyNumber
+    {
+        return this.ID;
+    }
+
+    public getText(): string
+    {
+        return this.text_input_latex;
+    }
+
+    public AddFunctionToTextChangeAction(func: (id: IdentifyNumber) => void)
+    {
+        this.TEXT_CHANGE_ACTION.addFunc(func);
     }
 }

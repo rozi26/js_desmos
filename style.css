@@ -24,6 +24,7 @@
 {
     width: var(--side_width);
     height: calc(100vh - var(--top_height) - var(--margin));
+    overflow-y: auto;
 }
 
 #bottom_menu
@@ -70,6 +71,7 @@ body
 {
     margin: 0px;
     padding: 0px;
+    overflow: hidden;
 }
 
 
